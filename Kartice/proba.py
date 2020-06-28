@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import  KMeans
 import sys
+
+
+
 #iscrtavanje tacaka
 def iscrtavanje(x, y, kmeans, unos, x1, x2, xlabel, ylabel):
 
@@ -37,7 +40,18 @@ def iscrtavanje(x, y, kmeans, unos, x1, x2, xlabel, ylabel):
         if(i not in indeksi):
             indeksi.append(i)
 
-    labele = ['Uvek malo potrose do 5 000', 'Cesta, ali skupa kupovina(>10 000)', 'Cesta kupovina od 5 000 do 10 000']
+    #odabir ispisa na osnovu izabranog grafika
+    labele = []
+    if(unos == '1'):
+        labele = ['Uvek malo potrose do 5 000', 'Cesta, ali skupa kupovina(>10 000)', 'Cesta kupovina od 5 000 do 10 000']
+    elif(unos == '2'):
+        labele = ['Mali limit (do 5 000) i balans do 4 000','Limit izmedju 5 000 i 15 000, a balans do 5 000',
+                  'Limit izmedju 6 000 i 20 000, a balans veci od 2 500',
+                  'Imaju veliki limiti (preko 15 000),a balans varira', 'Balans i limit su jednaki']
+    else:
+        labele = [ 'Mali limit (do 4 000) i malo trose (do 5 000)', 'Limit izmedju 5 000 i 10 000, a trose do 8 000',
+                  'Limit izmedju 10 000 i 20 000, a trose do 8 000', 'Tose vise od limita (preko 20 000)' ,
+                   'Trose do limita', 'Trose preko 8 000, a limit varira']
 
 
     #iscrtavanje centroida klastera
@@ -62,6 +76,34 @@ def iscrtavanje(x, y, kmeans, unos, x1, x2, xlabel, ylabel):
     plt.show()
 
 
+#Izracunavanje optimalnog broja klastera
+def calculate_WSS():
+    # Ucitavanje podataka iz fajla
+    podaci = pd.read_csv("credit_card_data.csv")
+    podaci.fillna(0, inplace=True)
+    x = pd.DataFrame(podaci)
+
+    #kmax = len(x.BALANCE)
+    # print(kmax)
+    points = (x.iloc[:,1:])
+    # print(x)
+
+
+    distortions = []
+    K = range(1, 20)
+    for k in K:
+        kmeanModel = KMeans(n_clusters=k)
+        kmeanModel.fit(points)
+        distortions.append(kmeanModel.inertia_)
+
+    plt.figure(figsize=(16, 8))
+    plt.plot(K, distortions, 'bx-')
+    plt.xlabel('k')
+    plt.ylabel('Distortion')
+    plt.title('The Elbow Method showing the optimal k')
+    plt.show()
+
+
 # k - broj klastera
 def ucitavanje(k):
     # Ucitavanje podataka iz fajla
@@ -72,11 +114,10 @@ def ucitavanje(k):
     x = pd.DataFrame(podaci)
 
     kmeans = KMeans(n_clusters=k, max_iter=100, random_state=5)
-
+    labele=  kmeans.labels_
     # Uzimamo sve iz tabele sem CUST_ID
     kmeans.fit(x.iloc[:, 1:])
     return kmeans, x
-
 
 if __name__ == '__main__':
 
@@ -85,13 +126,27 @@ if __name__ == '__main__':
         print('\n')
         print("MENI:")
         print("1. GRAFIK PURCHASES-PURCHASES_FREQUENCY")
+        print("2. GRAFIK CREDIT_LIMIT-BALANCE")
+        print("3. GRAFIK PURCHASES-CREDIT_LIMIT")
+        print("E  ELBOW FUNCTION")
         print('X  ZA IZLAZ')
         unos = input(">> ")
         if(unos == '1'):
             kmeans, x = ucitavanje(3)
             iscrtavanje(x.PURCHASES, x.PURCHASES_FREQUENCY, kmeans, unos, 3, 7, 'PURCHASES', 'PURCHASES_FREQUENCY')
+
+        elif(unos == '2'):
+            kmeans, x = ucitavanje(5)
+            iscrtavanje(x.CREDIT_LIMIT, x.BALANCE, kmeans, unos, 13, 1, 'CREDIT_LIMIT','BALANCE')
+        elif(unos == '3'):
+            kmeans, x = ucitavanje(6)
+            iscrtavanje(x.PURCHASES, x.CREDIT_LIMIT, kmeans, unos, 3, 13, 'PURCHASES', 'CREDIT_LIMIT')
         elif(unos == 'x' or unos == 'X'):
             print("Dovidjenja")
-            sys.exit() 
+            sys.exit()
+        elif(unos == 'e' or unos == 'E'):
+            rez = calculate_WSS()
         else:
             print("Neispravan unos")
+
+

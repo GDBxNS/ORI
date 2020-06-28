@@ -55,7 +55,7 @@ class Data:
             for index in range(10):
                 print(self.users[index])
         else:
-            raise "Podaci nisu ucitani"
+            raise ("Podaci nisu ucitani")
 
     def load_header(self):
         file = open('credit_card_data.csv', 'r')

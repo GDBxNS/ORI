@@ -111,7 +111,8 @@ if __name__ == '__main__':
 
             print("Test loss: " + str(test_eval[0]))
             print("Test accuracy " + str(test_eval[1]))
-         elif (unos == '3' ):
+            
+        elif (unos == '3' ):
             # model = Sequential()
             #
             # model.add(Conv2D(128, (3, 3), padding='same', activation='linear', input_shape=X_Training.shape[1:]))

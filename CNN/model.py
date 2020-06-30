@@ -27,7 +27,8 @@ if __name__ == '__main__':
     while (True):
         print('\n')
         print("MENI:")
-        print("1. VGG accuracy: 81%")
+        print("1. VGG accuracy: 79%")
+        print("2. Model2 accuracy: 88%")
         print('X  ZA IZLAZ')
         unos = input(">> ")
 
@@ -64,6 +65,47 @@ if __name__ == '__main__':
             # model.save("model_vgg")
 
             model = tf.keras.models.load_model("model_vgg")
+            test_eval = model.evaluate(X_Test, y_Test, verbose=1, batch_size=16)
+
+            print("Test loss: " + str(test_eval[0]))
+            print("Test accuracy " + str(test_eval[1]))
+            
+        elif (unos == '2'):
+
+            # model = Sequential()
+            #
+            # model.add(Conv2D(128, (3, 3), padding='same', activation='linear', input_shape=X_Training.shape[1:]))
+            # model.add(LeakyReLU(alpha=0.1))
+            # model.add(MaxPooling2D(pool_size=(2, 2)))
+            # model.add(Dropout(0.1))
+            #
+            # model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
+            # model.add(LeakyReLU(alpha=0.1))
+            # model.add(MaxPooling2D(pool_size=(2, 2)))
+            # model.add(Dropout(0.2))
+            #
+            # model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
+            # model.add(LeakyReLU(alpha=0.1))
+            # model.add(MaxPooling2D(pool_size=(2, 2)))
+            # model.add(Dropout(0.3))
+            #
+            # model.add(Conv2D(128, (3, 3), activation='linear', padding='same'))
+            # model.add(LeakyReLU(alpha=0.1))
+            # model.add(MaxPooling2D((2, 2), padding='same'))
+            # model.add(Dropout(0.4))
+            #
+            # model.add(Flatten())
+            #
+            # model.add(Dense(3, activation="softmax"))
+            #
+            # model.compile(loss='sparse_categorical_crossentropy',
+            #               optimizer='adam',
+            #               metrics=['accuracy'])
+            #
+            # model.fit(X_Training, y_Training, batch_size=16, epochs=20, validation_split=0.3)
+            # model.save("model88")
+
+            model = tf.keras.models.load_model("model88")
             test_eval = model.evaluate(X_Test, y_Test, verbose=1, batch_size=16)
 
             print("Test loss: " + str(test_eval[0]))

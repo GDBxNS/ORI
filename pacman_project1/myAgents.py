@@ -56,6 +56,7 @@ Put any other SearchProblems or search methods below. You may also import classe
 search.py and searchProblems.py. (ClosestDotAgent as an example below)
 """
 
+recnik = {}
 class ClosestDotAgent(Agent):
 
     def findPathToClosestDot(self, gameState):
@@ -69,15 +70,13 @@ class ClosestDotAgent(Agent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState, self.index)
 
-
         try:
             pop = recnik[self.index].pop(0)
             # print(pop)
             return [pop]
         except:
             recnik[self.index] = []
-            lista = search.aStarSearch(problem)
-            # print(lista)
+            lista = search.breadthFirstSearch(problem)
             for i in lista:
                 recnik[self.index].append(i)
             # print(recnik)
@@ -103,7 +102,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     method.
     """
 
-     def __init__(self, gameState, agentIndex):
+    def __init__(self, gameState, agentIndex):
         "Stores information from the gameState.  You don't need to change this."
         # Store the food for later reference
         self.food = gameState.getFood()
@@ -122,7 +121,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
-        x,y = state
+        x, y = state
 
         "*** YOUR CODE HERE ***"
         # util.raiseNotDefined()

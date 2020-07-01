@@ -18,7 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
-
+recnik = {}
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -73,7 +73,6 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 def depthFirstSearch(problem):
-    def depthFirstSearch(problem):
     """
     Najpre pretrazuje najdublje cvorove u stablu.
 
@@ -83,11 +82,11 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     # TODO 1: Implementirati DFS
-    stack = Stack()
+
+    stack = util.Stack()
     stack.push((problem.getStartState(), [], []))
     while not stack.isEmpty():
         trenutni, akcije, visited = stack.pop()
-
         if problem.isGoalState(trenutni):
             return akcije
 
@@ -100,7 +99,23 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    queue = util.Queue()
+    queue.push((problem.getStartState(), [], []))
+    expended = []
+
+    while not queue.isEmpty():
+        trenutni, akcije, curCost = queue.pop()
+
+        if not trenutni in expended:
+            expended.append(trenutni)
+
+            if problem.isGoalState(trenutni):
+                return akcije
+
+            for child, pravac, brKoraka in problem.getSuccessors(trenutni):
+                queue.push((child, akcije+ [pravac], curCost + [trenutni]))
+
+    return []
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""

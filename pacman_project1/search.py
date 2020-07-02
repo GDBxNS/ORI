@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+import searchProblems
 recnik = {}
 class SearchProblem:
     """
@@ -120,7 +121,7 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-     extended = {}
+    extended = {}
     akcije = []
     queue = util.PriorityQueue()
     parents = {}
@@ -178,7 +179,42 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    queue = util.PriorityQueue()
+    queue.push((problem.getStartState(), [], 0),
+               searchProblems.manhattanHeuristic(problem.getStartState(), problem.pacmanPosition))
+    expended = set()
+
+    while not queue.isEmpty():
+        trenutni, akcije, curCost = queue.pop()
+        uslov = False
+        index = -1
+        if not trenutni in expended:
+            expended.add(trenutni)
+            if problem.isGoalState(trenutni):  #
+                for key in recnik.keys():
+                    if recnik.get(key) == trenutni:
+                        index = key
+
+                if (index != -1):
+                    if index == problem.agentIndex:
+                        uslov = True
+
+                else:
+                    uslov = True
+                if problem.gameState.getNumFood() <= problem.gameState.getNumAgents():
+                    uslov = True
+                # if trenutni not in recnik[problem.agentIndex]:
+                if (uslov):
+                    recnik[problem.agentIndex] = trenutni
+                    # print(recnik)
+                    return akcije
+
+            for child, pravac, cena in problem.getSuccessors(trenutni):
+                g = curCost + cena
+                # curCost + cena, racuna cenu od pocetka do child cvora
+                queue.push((child, akcije + [pravac], curCost + cena), g + searchProblems.manhattanHeuristic(child, problem.pacmanPosition))
+
+    return []
 
 
 # Abbreviations

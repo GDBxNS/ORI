@@ -76,7 +76,7 @@ class ClosestDotAgent(Agent):
             return [pop]
         except:
             recnik[self.index] = []
-            lista = search.breadthFirstSearch(problem)
+            lista = search.aStarSearch(problem)
             for i in lista:
                 recnik[self.index].append(i)
             # print(recnik)

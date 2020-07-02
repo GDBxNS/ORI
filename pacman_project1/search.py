@@ -120,7 +120,53 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+     extended = {}
+    akcije = []
+    queue = util.PriorityQueue()
+    parents = {}
+    cost = {}
+
+    #Pocetno stanje tuple (x, y)
+    start = problem.getStartState()
+    # pozicija, pravac, cost
+    queue.push((start, 'Undefined', 0), 0)
+    # Ne znamo odakle smo dosli na pocetku
+    extended[start] = 'Undefined'
+    cost[start] = 0
+
+    if problem.isGoalState(start):
+        return akcije
+    node_sol = None
+
+    uslov = False
+    while(queue.isEmpty() != True and uslov != True):
+        node = queue.pop()
+        extended[node[0]] = node[1]
+        if problem.isGoalState(node[0]):
+            node_sol = node[0]
+            uslov = True
+            break
+        for elem in problem.getSuccessors(node[0]):
+            if elem[0] not in extended.keys():
+                # cost tacke i njenegov sledeci
+                priority = node[2] + elem[2]
+                # Ako je cena sledeceg svora vez izracunata prethodno
+                # ako je nova cena veca preskoci
+                if elem[0] in cost.keys():
+                    if cost[elem[0]] <= priority:
+                        continue
+                # ako je nova cena izmeni je u queue i update-uj parent-a
+                queue.push((elem[0], elem[1], priority), priority)
+                cost[elem[0]] = priority
+                parents[elem[0]] = node[0]
+
+    # Vraca putanju akcije
+    while(node_sol in parents.keys()):
+        node_sol_prev = parents[node_sol]
+        akcije.insert(0, extended[node_sol])
+        node_sol = node_sol_prev
+
+    return akcije
 
 def nullHeuristic(state, problem=None):
     """

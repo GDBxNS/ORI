@@ -54,7 +54,7 @@ if __name__ == '__main__':
     X_Test = []
     y_Test = []
 
-    for features, label in trainig_data:
+    for features, label in test_data:
         X_Test.append(features)
         y_Test.append(label)
 

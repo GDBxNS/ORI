@@ -14,8 +14,12 @@ if __name__ == '__main__':
     X_Training = pickle.load(open("X_Training.pickle", 'rb'))
     y_Training = pickle.load(open("y_Training.pickle", 'rb'))
 
-    X_Test = pickle.load(open("X_Test.pickle", 'rb'))
-    y_Test = pickle.load(open("y_Test.pickle", 'rb'))
+    # y_Test = pickle.load(open("y_Test.pickle", 'rb'))
+    # X_Test = pickle.load(open("X_Test.pickle", 'rb'))
+    
+    y_Test = pickle.load(open("y_Test2.pickle", 'rb'))
+    X_Test = pickle.load(open("X_Test2.pickle", 'rb'))
+
 
     y_Training = np.array(y_Training)
     X_Training = X_Training/255.0
@@ -113,40 +117,40 @@ if __name__ == '__main__':
             print("Test accuracy " + str(test_eval[1]))
             
         elif (unos == '3' ):
-            # model = Sequential()
-            #
-            # model.add(Conv2D(128, (3, 3), padding='same', activation='linear', input_shape=X_Training.shape[1:]))
-            # model.add(LeakyReLU(alpha=0.1))
-            # model.add(MaxPooling2D(pool_size=(2, 2)))
-            # model.add(Dropout(0.1))
-            #
-            # model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
-            # model.add(LeakyReLU(alpha=0.1))
-            # model.add(MaxPooling2D(pool_size=(2, 2)))
-            # model.add(Dropout(0.2))
-            #
-            # model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
-            # model.add(LeakyReLU(alpha=0.1))
-            # model.add(MaxPooling2D(pool_size=(2, 2)))
-            # model.add(Dropout(0.3))
-            #
-            # model.add(Conv2D(128, (3, 3), activation='linear', padding='same'))
-            # model.add(LeakyReLU(alpha=0.1))
-            # model.add(MaxPooling2D((2, 2), padding='same'))
-            # model.add(Dropout(0.4))
-            #
-            # model.add(Flatten())
-            #
-            # model.add(Dense(3, activation="softmax"))
-            #
-            # model.compile(loss='sparse_categorical_crossentropy',
-            #               optimizer='adam',
-            #               metrics=['accuracy'])
-            #
-            # model.fit(X_Training, y_Training, batch_size=64, epochs=30, validation_split=0.3)
-            # model.save("model91")
+            model = Sequential()
 
-            model = tf.keras.models.load_model("model91")
+            model.add(Conv2D(128, (3, 3), padding='same', activation='linear', input_shape=X_Training.shape[1:]))
+            model.add(LeakyReLU(alpha=0.1))
+            model.add(MaxPooling2D(pool_size=(2, 2)))
+            model.add(Dropout(0.1))
+
+            model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
+            model.add(LeakyReLU(alpha=0.1))
+            model.add(MaxPooling2D(pool_size=(2, 2)))
+            model.add(Dropout(0.2))
+
+            model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
+            model.add(LeakyReLU(alpha=0.1))
+            model.add(MaxPooling2D(pool_size=(2, 2)))
+            model.add(Dropout(0.3))
+
+            model.add(Conv2D(128, (3, 3), activation='linear', padding='same'))
+            model.add(LeakyReLU(alpha=0.1))
+            model.add(MaxPooling2D((2, 2), padding='same'))
+            model.add(Dropout(0.4))
+
+            model.add(Flatten())
+
+            model.add(Dense(3, activation="softmax"))
+
+            model.compile(loss='sparse_categorical_crossentropy',
+                          optimizer='adam',
+                          metrics=['accuracy'])
+
+            model.fit(X_Training, y_Training, batch_size=16, epochs=70, validation_split=0.3)
+            model.save("model3")
+
+            # model = tf.keras.models.load_model("model91")
             test_eval = model.evaluate(X_Test, y_Test, verbose=1, batch_size=16)
 
             print("Test loss: " + str(test_eval[0]))

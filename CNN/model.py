@@ -119,22 +119,22 @@ if __name__ == '__main__':
         elif (unos == '3' ):
             model = Sequential()
 
-            model.add(Conv2D(128, (3, 3), padding='same', activation='linear', input_shape=X_Training.shape[1:]))
+            model.add(Conv2D(256, (3, 3), input_shape=X_Training.shape[1:]))
             model.add(LeakyReLU(alpha=0.1))
             model.add(MaxPooling2D(pool_size=(2, 2)))
             model.add(Dropout(0.1))
 
-            model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
+            model.add(Conv2D(128, (3, 3)))
             model.add(LeakyReLU(alpha=0.1))
             model.add(MaxPooling2D(pool_size=(2, 2)))
             model.add(Dropout(0.2))
 
-            model.add(Conv2D(128, (3, 3), padding='same', activation='linear'))
+            model.add(Conv2D(64, (3, 3)))
             model.add(LeakyReLU(alpha=0.1))
             model.add(MaxPooling2D(pool_size=(2, 2)))
             model.add(Dropout(0.3))
 
-            model.add(Conv2D(128, (3, 3), activation='linear', padding='same'))
+            model.add(Conv2D(32, (3, 3)))
             model.add(LeakyReLU(alpha=0.1))
             model.add(MaxPooling2D((2, 2), padding='same'))
             model.add(Dropout(0.4))
@@ -147,7 +147,7 @@ if __name__ == '__main__':
                           optimizer='adam',
                           metrics=['accuracy'])
 
-            model.fit(X_Training, y_Training, batch_size=16, epochs=70, validation_split=0.3)
+            model.fit(X_Training, y_Training, batch_size=16, epochs=40, validation_split=0.3)
             model.save("model3")
 
             # model = tf.keras.models.load_model("model91")

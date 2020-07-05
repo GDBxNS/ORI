@@ -74,10 +74,10 @@ def iscrtavanje(x, y, kmeans, unos, x1, x2, xlabel, ylabel):
 
     plt.show()
 
-
 #Izracunavanje optimalnog broja klastera
 def calculate_WSS():
     # Ucitavanje podataka iz fajla
+    
     podaci = pd.read_csv("credit_card_data.csv")
     podaci.fillna(0, inplace=True)
     x = pd.DataFrame(podaci)
@@ -102,6 +102,15 @@ def calculate_WSS():
     plt.title('The Elbow Method showing the optimal k')
     plt.show()
 
+def boxplot(x, y, s_x, s_y):
+    # fig, ax = plt.subplots(2)
+    figure = plt.figure(figsize=(8, 8))
+    ax = figure.subplots(2)
+    ax[0].set_title(s_x)
+    ax[0].boxplot(x)
+    ax[1].set_title(s_y)
+    ax[1].boxplot(y)
+    plt.show()
 
 # k - broj klastera
 def ucitavanje(k):
@@ -134,19 +143,27 @@ if __name__ == '__main__':
         if(unos == '1'):
             kmeans, x = ucitavanje(3)
             iscrtavanje(x.PURCHASES, x.PURCHASES_FREQUENCY, kmeans, unos, 3, 7, 'PURCHASES', 'PURCHASES_FREQUENCY')
-
+            boxplot(x.PURCHASES, x.PURCHASES_FREQUENCY, "PURCHASES", "PURCHASES_FREQUENCY")
+        
         elif(unos == '2'):
             kmeans, x = ucitavanje(5)
-            iscrtavanje(x.CREDIT_LIMIT, x.BALANCE, kmeans, unos, 13, 1, 'CREDIT_LIMIT','BALANCE')
+            iscrtavanje(x.CREDIT_LIMIT, x.BALANCE, kmeans, unos, 13, 1, 'CREDIT_LIMIT', 'BALANCE')
+            boxplot(x.CREDIT_LIMIT, x.BALANCE, "CREDIT_LIMIT", "BALANCE")
+
         elif(unos == '3'):
             kmeans, x = ucitavanje(6)
             iscrtavanje(x.PURCHASES, x.CREDIT_LIMIT, kmeans, unos, 3, 13, 'PURCHASES', 'CREDIT_LIMIT')
+            boxplot(x.PURCHASES, x.CREDIT_LIMIT, "PURCHASES", "CREDIT_LIMIT")
         elif(unos == 'x' or unos == 'X'):
             print("Dovidjenja")
             sys.exit()
+
         elif(unos == 'e' or unos == 'E'):
             rez = calculate_WSS()
+
         else:
             print("Neispravan unos")
+        
+        
 
 

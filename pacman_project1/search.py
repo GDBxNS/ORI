@@ -121,11 +121,12 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    extended = {}
     akcije = []
+    extended = {}
+    cost = {}
     queue = util.PriorityQueue()
     parents = {}
-    cost = {}
+
 
     #Pocetno stanje tuple (x, y)
     start = problem.getStartState()
